@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="meat" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4A0A0"/>
+      <stop offset="50%" stop-color="#E07070"/>
+      <stop offset="100%" stop-color="#C85050"/>
+    </linearGradient>
+    <linearGradient id="fat" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFF5EE"/>
+      <stop offset="100%" stop-color="#FFE4E1"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#00000044"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)" transform="translate(256,220)">
+    <!-- Plate -->
+    <ellipse cx="0" cy="60" rx="160" ry="55" fill="#F5F5F5" stroke="#DDD" stroke-width="2"/>
+    <ellipse cx="0" cy="55" rx="140" ry="45" fill="#FFF" stroke="#EEE" stroke-width="1"/>
+    <!-- Meat slices - layered thin slices -->
+    <!-- Slice 1 -->
+    <g transform="translate(-60, 20) rotate(-10)">
+      <path d="M0 0 Q40 -8 80 0 Q82 15 80 25 Q40 32 0 25 Q-2 12 0 0 Z" fill="url(#meat)" stroke="#C06060" stroke-width="0.5"/>
+      <path d="M10 5 Q40 0 70 5 Q70 10 70 12 Q40 8 10 12 Z" fill="url(#fat)" opacity="0.6"/>
+    </g>
+    <!-- Slice 2 -->
+    <g transform="translate(-40, 5) rotate(5)">
+      <path d="M0 0 Q45 -10 90 0 Q92 15 90 28 Q45 35 0 28 Q-2 12 0 0 Z" fill="url(#meat)" stroke="#C06060" stroke-width="0.5"/>
+      <path d="M15 6 Q45 1 75 6 Q76 12 75 15 Q45 10 15 15 Z" fill="url(#fat)" opacity="0.6"/>
+      <path d="M5 18 Q30 14 55 18 Q55 22 54 24 Q30 20 5 24 Z" fill="url(#fat)" opacity="0.4"/>
+    </g>
+    <!-- Slice 3 -->
+    <g transform="translate(-20, -15) rotate(-3)">
+      <path d="M0 0 Q50 -10 100 0 Q102 18 100 30 Q50 38 0 30 Q-2 15 0 0 Z" fill="url(#meat)" stroke="#C06060" stroke-width="0.5"/>
+      <path d="M20 7 Q50 2 80 7 Q80 14 80 16 Q50 11 20 16 Z" fill="url(#fat)" opacity="0.7"/>
+    </g>
+    <!-- Slice 4 (folded) -->
+    <g transform="translate(20, -30) rotate(8)">
+      <path d="M0 5 Q30 -5 60 0 Q65 8 60 20 Q55 25 40 28 Q20 30 0 22 Q-5 12 0 5 Z" fill="#E88080" stroke="#C06060" stroke-width="0.5"/>
+      <path d="M10 10 Q30 5 50 8 Q50 14 48 16 Q30 12 10 16 Z" fill="url(#fat)" opacity="0.5"/>
+    </g>
+    <!-- Garnish - shiso leaf -->
+    <g transform="translate(70, 30)">
+      <path d="M0 0 Q15 -20 30 -5 Q15 5 0 0 Z" fill="#2E8B57"/>
+      <path d="M0 0 Q15 -20 30 -5" fill="none" stroke="#1E6B37" stroke-width="0.5"/>
+      <line x1="0" y1="0" x2="30" y2="-5" stroke="#1E6B37" stroke-width="0.5"/>
+    </g>
+    <!-- Daikon garnish -->
+    <g transform="translate(-90, 35)">
+      <ellipse cx="0" cy="0" rx="20" ry="8" fill="#FFFFF0" stroke="#EEE" stroke-width="0.5"/>
+      <ellipse cx="5" cy="-3" rx="15" ry="6" fill="#FFFFF0" stroke="#EEE" stroke-width="0.5"/>
+    </g>
+  </g>
+</svg>

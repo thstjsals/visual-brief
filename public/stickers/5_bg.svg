@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="nightsky" cx="50%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#1A1A3E"/>
+      <stop offset="100%" stop-color="#0A0A1E"/>
+    </radialGradient>
+    <radialGradient id="lanternglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF8C0066"/>
+      <stop offset="100%" stop-color="#FF8C0000"/>
+    </radialGradient>
+    <linearGradient id="wall1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5A4030"/>
+      <stop offset="100%" stop-color="#3A2818"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#555"/>
+      <stop offset="100%" stop-color="#333"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#00000044"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+  <ellipse cx="256" cy="256" rx="245" ry="245" fill="white" filter="url(#shadow)"/>
+  <ellipse cx="256" cy="256" rx="235" ry="235" fill="url(#nightsky)"/>
+  <!-- Stars -->
+  <g opacity="0.6">
+    <circle cx="80" cy="60" r="1.5" fill="white"/>
+    <circle cx="150" cy="45" r="1" fill="white"/>
+    <circle cx="320" cy="55" r="1.5" fill="white"/>
+    <circle cx="400" cy="70" r="1" fill="white"/>
+    <circle cx="200" cy="80" r="1" fill="white"/>
+    <circle cx="450" cy="50" r="1.5" fill="white"/>
+  </g>
+  <!-- Moon -->
+  <circle cx="400" cy="80" r="25" fill="#FFF8DC" opacity="0.8"/>
+  <circle cx="410" cy="75" r="22" fill="url(#nightsky)"/>
+  <!-- Alley path -->
+  <path d="M180 490 L140 300 L160 300 L180 300 L370 300 L380 300 L340 490" fill="url(#road)"/>
+  <!-- Left building -->
+  <rect x="40" y="120" width="150" height="300" fill="url(#wall1)"/>
+  <rect x="40" y="120" width="150" height="10" fill="#6A5040"/>
+  <!-- Left windows/signs -->
+  <rect x="60" y="160" width="30" height="40" rx="2" fill="#FFD700" opacity="0.4"/>
+  <rect x="110" y="160" width="30" height="40" rx="2" fill="#FFD700" opacity="0.3"/>
+  <rect x="60" y="230" width="30" height="40" rx="2" fill="#FF6B6B" opacity="0.3"/>
+  <rect x="110" y="230" width="30" height="40" rx="2" fill="#FFD700" opacity="0.25"/>
+  <!-- Left noren (curtain) -->
+  <rect x="120" y="300" width="50" height="50" rx="3" fill="#C0392B" opacity="0.7"/>
+  <line x1="132" y1="300" x2="132" y2="350" stroke="#A02020" stroke-width="1" opacity="0.5"/>
+  <line x1="145" y1="300" x2="145" y2="350" stroke="#A02020" stroke-width="1" opacity="0.5"/>
+  <line x1="158" y1="300" x2="158" y2="350" stroke="#A02020" stroke-width="1" opacity="0.5"/>
+  <!-- Right building -->
+  <rect x="330" y="140" width="140" height="280" fill="#4A3020"/>
+  <rect x="330" y="140" width="140" height="10" fill="#5A4030"/>
+  <!-- Right windows -->
+  <rect x="350" y="170" width="25" height="35" rx="2" fill="#FFD700" opacity="0.35"/>
+  <rect x="395" y="170" width="25" height="35" rx="2" fill="#87CEEB" opacity="0.2"/>
+  <rect x="350" y="240" width="25" height="35" rx="2" fill="#FFD700" opacity="0.3"/>
+  <rect x="395" y="240" width="25" height="35" rx="2" fill="#FFD700" opacity="0.2"/>
+  <!-- Right noren -->
+  <rect x="340" y="300" width="45" height="45" rx="3" fill="#1B4F72" opacity="0.7"/>
+  <line x1="350" y1="300" x2="350" y2="345" stroke="#15406A" stroke-width="1" opacity="0.5"/>
+  <line x1="362" y1="300" x2="362" y2="345" stroke="#15406A" stroke-width="1" opacity="0.5"/>
+  <line x1="374" y1="300" x2="374" y2="345" stroke="#15406A" stroke-width="1" opacity="0.5"/>
+  <!-- Lanterns -->
+  <circle cx="180" cy="280" r="40" fill="url(#lanternglow)" filter="url(#glow)"/>
+  <circle cx="340" cy="280" r="40" fill="url(#lanternglow)" filter="url(#glow)"/>
+  <g>
+    <ellipse cx="180" cy="285" rx="12" ry="18" fill="#FF6B00" opacity="0.9"/>
+    <ellipse cx="180" cy="285" rx="10" ry="15" fill="#FF8C00" opacity="0.8"/>
+    <text x="180" y="291" text-anchor="middle" font-size="12" fill="#FFF" opacity="0.8">酒</text>
+    <line x1="180" y1="267" x2="180" y2="260" stroke="#666" stroke-width="1"/>
+    <ellipse cx="340" cy="285" rx="12" ry="18" fill="#FF6B00" opacity="0.9"/>
+    <ellipse cx="340" cy="285" rx="10" ry="15" fill="#FF8C00" opacity="0.8"/>
+    <text x="340" y="291" text-anchor="middle" font-size="12" fill="#FFF" opacity="0.8">焼</text>
+    <line x1="340" y1="267" x2="340" y2="260" stroke="#666" stroke-width="1"/>
+  </g>
+  <!-- Vertical sign -->
+  <rect x="55" y="290" width="22" height="80" rx="2" fill="#FFF" opacity="0.8"/>
+  <text x="66" y="315" text-anchor="middle" font-size="14" fill="#333">居</text>
+  <text x="66" y="335" text-anchor="middle" font-size="14" fill="#333">酒</text>
+  <text x="66" y="355" text-anchor="middle" font-size="14" fill="#333">屋</text>
+  <!-- Smoke from grills -->
+  <g opacity="0.2">
+    <path d="M200 280 Q195 250 205 220" fill="none" stroke="white" stroke-width="2"/>
+    <path d="M260 290 Q255 255 265 230" fill="none" stroke="white" stroke-width="2"/>
+  </g>
+</svg>

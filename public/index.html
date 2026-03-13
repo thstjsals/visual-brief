@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Player</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { user-select: none; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: system-ui, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .player {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+
+    video {
+      width: 100%;
+      height: 100vh;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .controls {
+      position: absolute;
+      padding: 0 20px 20px;
+      opacity: 1;
+      transition: opacity 400ms ease;
+    }
+    .controls.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .controls::before {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      right: 0;
+      height: 40vh;
+      background: linear-gradient(to bottom, transparent, #000);
+      pointer-events: none;
+    }
+
+    .video-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      text-align: left;
+      position: relative;
+      z-index: 1;
+    }
+
+    .timeline-wrap {
+      position: relative;
+      height: 8px;
+      background: transparent;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .timeline-section {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+    .timeline-section .track {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.3;
+    }
+    .timeline-section .fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+    }
+
+    .timeline-progress {
+      display: none;
+    }
+
+    .timeline-thumb {
+      display: none;
+    }
+
+    .timeline-hover {
+      position: absolute;
+      top: -30px;
+      background: #222;
+      color: #fff;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      pointer-events: none;
+      display: none;
+      transform: translateX(-50%);
+    }
+
+
+    .section-images {
+      position: relative;
+      height: 140px;
+      margin-bottom: 10px;
+      z-index: 1;
+    }
+
+    .character-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 86px;
+      height: 86px;
+      transition: left 0.4s ease;
+      z-index: 10;
+    }
+    .character-wrap .character {
+      width: auto;
+      height: 100%;
+      position: relative;
+      left: -35px;
+    }
+    .character-wrap .face {
+      position: absolute;
+      top: -26px;
+      left: calc(55% - 2px);  
+      transform: translateX(-50%);
+      width: 40px;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    .section-img-wrap {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-img-wrap .bg {
+      height: 72px;
+      width: 128px;
+      object-fit: cover;
+      border-radius: 12px;
+      opacity: 0.6;
+    }
+    .section-img-wrap:hover .bg { opacity: 1; }
+    .section-img-wrap.active .bg { opacity: 1; }
+
+    .section-img-wrap .obj {
+      position: absolute;
+      height: 96px;
+      width: 96px;
+      object-fit: contain;
+      left: 50%;
+      top: 50%;
+      margin-left: -16px;
+      margin-top: -16px;
+      transition: transform 0.15s ease;
+    }
+    .section-img-wrap:hover .obj, .section-img-wrap.active .obj { transform: scale(1.5); }
+
+    .section-label {
+      position: absolute;
+      top: 0px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #ccc;
+      font-size: 15px;
+      font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .section-img-wrap:hover .section-label, .section-img-wrap.active .section-label { opacity: 1; }
+
+    .sections {
+      display: none;
+    }
+
+    /* Page 2 - stickers only */
+    .page-2 {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #000;
+      z-index: 100;
+      overflow: hidden;
+      transform: scale(2);
+      transform-origin: center center;
+    }
+    .page-2 .character-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(calc(-50% - 100px), -50%);
+      width: 86px;
+      height: 86px;
+      z-index: 10;
+    }
+    .page-2 .sticker-set {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(calc(-50% + 250px)) translateY(calc(-50% - 50px));
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.5,0,0.1,1), opacity 0.5s cubic-bezier(0.5,0,0.1,1);
+      will-change: transform, opacity;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .page-2 .sticker-set.at-center {
+      transform: translateX(-50%) translateY(calc(-50% - 50px));
+      opacity: 1;
+    }
+    .page-2 .sticker-set.at-left {
+      transform: translateX(calc(-50% - 250px)) translateY(calc(-50% - 50px));
+      opacity: 0;
+    }
+    .page-2 .sticker-set .bg {
+      height: 108px;
+      width: 192px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    @keyframes papercut-tilt {
+      0%   { transform: translateX(-50%) rotate(0deg); }
+      15%  { transform: translateX(-50%) rotate(-5deg); }
+      30%  { transform: translateX(-50%) rotate(3deg); }
+      45%  { transform: translateX(-50%) rotate(-2deg); }
+      55%  { transform: translateX(-50%) rotate(1deg); }
+      65%  { transform: translateX(-50%) rotate(0deg); }
+      100% { transform: translateX(-50%) rotate(0deg); }
+    }
+    .page-2 .sprite-idle {
+      width: 86px;
+      height: 86px;
+      background: url("stickers/sprites_idle.png") 0 0 no-repeat;
+      background-size: 430px 430px;
+      position: relative;
+      left: 3px;
+    }
+
+    .page-2 .sprite-walk {
+      width: 86px;
+      height: 86px;
+      background: url("stickers/sprites_walk.png") 0 0 no-repeat;
+      background-size: 430px 430px;
+      position: relative;
+      left: 3px;
+      animation: walk-cycle 0.65s steps(1) infinite;
+    }
+    @keyframes walk-cycle {
+      0%      { background-position: 0 0; }
+      7.69%   { background-position: -86px 0; }
+      15.38%  { background-position: -172px 0; }
+      23.08%  { background-position: -258px 0; }
+      30.77%  { background-position: -344px 0; }
+      38.46%  { background-position: 0 -86px; }
+      46.15%  { background-position: -86px -86px; }
+      53.85%  { background-position: -172px -86px; }
+      61.54%  { background-position: -258px -86px; }
+      69.23%  { background-position: -344px -86px; }
+      76.92%  { background-position: 0 -172px; }
+      84.62%  { background-position: -86px -172px; }
+      92.31%  { background-position: -172px -172px; }
+      100%    { background-position: 0 0; }
+    }
+
+    .page-2 .character-wrap .face {
+      animation: papercut-tilt 2s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    @keyframes float-bob {
+      0%   { translate: 0 0; rotate: 0deg; }
+      25%  { translate: 0 -3px; rotate: -3deg; }
+      50%  { translate: 0 0; rotate: 0deg; }
+      75%  { translate: 0 -3px; rotate: 3deg; }
+      100% { translate: 0 0; rotate: 0deg; }
+    }
+    .page-2 .sticker-set .obj {
+      position: absolute;
+      height: 96px;
+      width: 96px;
+      object-fit: contain;
+      top: 50%;
+      left: 50%;
+      margin-left: 32px;
+      margin-top: 16px;
+      transform: scale(1.5);
+    }
+    .page-2 .sticker-set.scaled .obj {
+      animation: float-bob 2s ease-in-out infinite;
+    }
+    .page-2 .sticker-set .section-label {
+      color: #ccc;
+      font-size: 20px;
+      font-weight: bold;
+      white-space: nowrap;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .page-2 .sticker-set.scaled .section-label {
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="page-2" id="page2"></div>
+  <div class="player" id="page1">
+    <video id="video" src="pani_okinawa.mp4" autoplay muted></video>
+    <div class="controls">
+      <div class="video-title" id="videoTitle"></div>
+      <div class="section-images" id="sectionImages">
+        <div class="character-wrap" id="character">
+          <img class="character" src="stickers/character_seg.png" />
+          <img class="face" src="pani_face.png" />
+        </div>
+      </div>
+      <div class="sections" id="sections"></div>
+      <div class="timeline-wrap" id="timeline">
+        <div class="timeline-progress" id="progress"></div>
+        <div class="timeline-thumb" id="thumb"></div>
+        <div class="timeline-hover" id="hoverTime"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById("video");
+    const timeline = document.getElementById("timeline");
+    const progress = document.getElementById("progress");
+    const thumb = document.getElementById("thumb");
+    const hoverTime = document.getElementById("hoverTime");
+    const character = document.getElementById("character");
+    const sectionsEl = document.getElementById("sections");
+    const sectionImagesEl = document.getElementById("sectionImages");
+    const controls = document.querySelector(".controls");
+
+    function repositionControls() {
+      if (!video.videoWidth) return;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const videoAspect = video.videoWidth / video.videoHeight;
+      const windowAspect = vw / vh;
+      let renderW, renderH, offsetX, offsetY;
+      if (windowAspect > videoAspect) {
+        renderH = vh;
+        renderW = vh * videoAspect;
+        offsetX = (vw - renderW) / 2;
+        offsetY = 0;
+      } else {
+        renderW = vw;
+        renderH = vw / videoAspect;
+        offsetX = 0;
+        offsetY = (vh - renderH) / 2;
+      }
+      controls.style.left = offsetX + "px";
+      controls.style.right = (vw - offsetX - renderW) + "px";
+      controls.style.bottom = (vh - offsetY - renderH) + "px";
+    }
+
+    video.addEventListener("loadedmetadata", repositionControls);
+    window.addEventListener("resize", repositionControls);
+
+    let sections = [];
+    let dragging = false;
+
+    function fmt(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return m + ":" + String(sec).padStart(2, "0");
+    }
+
+    function parseTime(str) {
+      const parts = str.split(":").map(Number);
+      return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    }
+
+    const sectionColors = ["#5B8DB8", "#B8875B", "#5BA8B8", "#8B6B5B", "#6B5B8B"];
+    let sectionsData = null;
+
+    fetch("/data.json")
+      .then(r => r.json())
+      .then(data => {
+        sectionsData = data;
+        document.getElementById("videoTitle").textContent = data.title;
+        placeSections();
+        showPage(2);
+      });
+
+    video.addEventListener("loadedmetadata", placeSections);
+
+    function placeSections() {
+      if (!sectionsData || !video.duration) return;
+      sectionsEl.innerHTML = "";
+      sectionImagesEl.innerHTML = "";
+      sectionImagesEl.appendChild(character);
+      timeline.querySelectorAll(".timeline-section").forEach(el => el.remove());
+      sections = sectionsData.sections_5;
+      const dur = video.duration;
+      sections.forEach((s, i) => {
+        const startSec = i === 0 ? 0 : parseTime(s.start);
+        const nextStart = i < sections.length - 1 ? parseTime(sections[i + 1].start) : dur;
+        const endSec = Math.max(parseTime(s.end), nextStart);
+        const leftPct = (startSec / dur) * 100;
+        const widthPct = ((endSec - startSec) / dur) * 100;
+
+        // Timeline colored section
+        const tlSec = document.createElement("div");
+        tlSec.className = "timeline-section";
+        const gap = 3; // px per side
+        tlSec.style.left = "calc(" + leftPct + "% + " + gap + "px)";
+        tlSec.style.width = "calc(" + widthPct + "% - " + (gap * 2) + "px)";
+        const color = sectionColors[i] || "#555";
+        const track = document.createElement("div");
+        track.className = "track";
+        track.style.background = color;
+        tlSec.appendChild(track);
+        const fill = document.createElement("div");
+        fill.className = "fill";
+        fill.style.background = color;
+        tlSec.appendChild(fill);
+        s._tlFill = fill;
+        s._startSec = startSec;
+        s._endSec = endSec;
+        timeline.appendChild(tlSec);
+
+        // Background image
+        const imgWrap = document.createElement("div");
+        imgWrap.className = "section-img-wrap";
+        imgWrap.style.left = leftPct + "%";
+        imgWrap.style.width = widthPct + "%";
+        const img = document.createElement("img");
+        img.className = "bg";
+        img.src = "stickers/" + (i + 1) + "_bg_gen.png";
+        imgWrap.appendChild(img);
+        const obj = document.createElement("img");
+        obj.className = "obj";
+        obj.src = "stickers/" + (i + 1) + "_obj_gen_seg.png";
+        imgWrap.appendChild(obj);
+        const label = document.createElement("span");
+        label.className = "section-label";
+        label.textContent = s.title;
+        imgWrap.appendChild(label);
+        imgWrap.addEventListener("click", () => {
+          video.currentTime = startSec;
+          if (video.paused) video.play();
+        });
+        s._imgWrap = imgWrap;
+        sectionImagesEl.appendChild(imgWrap);
+
+        // Text label
+        const btn = document.createElement("button");
+        btn.className = "section-btn";
+        btn.textContent = s.title;
+        btn.style.left = leftPct + "%";
+        btn.style.width = widthPct + "%";
+        btn.addEventListener("click", () => {
+          video.currentTime = startSec;
+          if (video.paused) video.play();
+        });
+        s._btn = btn;
+        sectionsEl.appendChild(btn);
+      });
+    }
+
+    video.addEventListener("click", () => {
+      if (video.paused) video.play();
+      else video.pause();
+    });
+
+    video.addEventListener("timeupdate", () => {
+      if (dragging) return;
+      const pct = (video.currentTime / video.duration) * 100;
+      thumb.style.left = pct + "%";
+      updateSectionFills();
+      updateActiveSection();
+    });
+
+    function updateActiveSection(hoverTime) {
+      const ct = video.currentTime;
+      sections.forEach((s, i) => {
+        const start = i === 0 ? 0 : parseTime(s.start);
+        const end = i < sections.length - 1 ? parseTime(sections[i + 1].start) : video.duration;
+        const playing = ct >= start && ct < end;
+        const hovered = hoverTime !== undefined && hoverTime >= start && hoverTime < end;
+        s._btn.classList.toggle("active", playing || hovered);
+        s._imgWrap.classList.toggle("active", playing || hovered);
+        if (playing) {
+          const wrap = s._imgWrap;
+          const centerPct = parseFloat(wrap.style.left) + parseFloat(wrap.style.width) / 2;
+          const sectionImagesWidth = sectionImagesEl.offsetWidth;
+          const stickerHalfPx = 84;
+          const offsetPct = (stickerHalfPx / sectionImagesWidth) * 100;
+          character.style.left = "calc(" + (centerPct - offsetPct) + "% - 20px)";
+        }
+      });
+    }
+
+    function updateSectionFills() {
+      const ct = video.currentTime;
+      sections.forEach(s => {
+        if (!s._tlFill) return;
+        if (ct >= s._endSec) {
+          s._tlFill.style.width = "100%";
+        } else if (ct <= s._startSec) {
+          s._tlFill.style.width = "0%";
+        } else {
+          const pct = ((ct - s._startSec) / (s._endSec - s._startSec)) * 100;
+          s._tlFill.style.width = pct + "%";
+        }
+      });
+    }
+
+    function seekFromEvent(e) {
+      const rect = timeline.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      video.currentTime = pct * video.duration;
+      thumb.style.left = (pct * 100) + "%";
+      updateSectionFills();
+      updateActiveSection();
+    }
+
+    timeline.addEventListener("mousedown", (e) => {
+      dragging = true;
+      seekFromEvent(e);
+    });
+    window.addEventListener("mousemove", (e) => {
+      if (dragging) seekFromEvent(e);
+      const rect = timeline.getBoundingClientRect();
+      if (e.clientX >= rect.left && e.clientX <= rect.right &&
+          e.clientY >= rect.top && e.clientY <= rect.bottom) {
+        const pct = (e.clientX - rect.left) / rect.width;
+        hoverTime.style.display = "block";
+        hoverTime.style.left = (pct * 100) + "%";
+        hoverTime.textContent = fmt(pct * (video.duration || 0));
+        if (!dragging) updateActiveSection(pct * (video.duration || 0));
+      } else if (!dragging) {
+        hoverTime.style.display = "none";
+        updateActiveSection();
+      }
+    });
+    window.addEventListener("mouseup", () => { dragging = false; });
+
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+    let currentPage = 1;
+
+    function showPage(num) {
+      currentPage = num;
+      if (num === 1) {
+        page1.style.display = "";
+        page2.style.display = "none";
+        if (page2Animation) { clearTimeout(page2Animation); page2Animation = null; }
+      } else {
+        page1.style.display = "none";
+        page2.style.display = "block";
+        buildPage2();
+      }
+    }
+
+    let page2Animation = null;
+
+    function buildPage2() {
+      const p2 = document.getElementById("page2");
+      // Clear previous content except structure
+      p2.querySelectorAll(".character-wrap, .sticker-set").forEach(el => el.remove());
+      if (page2Animation) { clearTimeout(page2Animation); page2Animation = null; }
+      if (!sectionsData) return;
+      const secs = sectionsData.sections_5;
+
+      // Character centered
+      const charWrap = document.createElement("div");
+      charWrap.className = "character-wrap";
+      const charIdle = document.createElement("div");
+      charIdle.className = "character sprite-idle";
+      charWrap.appendChild(charIdle);
+
+      const sprite = document.createElement("div");
+      sprite.className = "character sprite-walk";
+      sprite.style.display = "none";
+      charWrap.appendChild(sprite);
+
+      const faceImg = document.createElement("img");
+      faceImg.className = "face";
+      faceImg.src = "pani_face.png";
+      charWrap.appendChild(faceImg);
+      p2.appendChild(charWrap);
+
+      function startWalking() {
+        charIdle.style.display = "none";
+        sprite.style.display = "block";
+      }
+      function stopWalking() {
+        charIdle.style.display = "";
+        sprite.style.display = "none";
+      }
+
+      // Create all sticker sets
+      const sets = secs.map((s, i) => {
+        const wrap = document.createElement("div");
+        wrap.className = "sticker-set";
+
+        const label = document.createElement("span");
+        label.className = "section-label";
+        label.textContent = s.title;
+        wrap.appendChild(label);
+
+        const bg = document.createElement("img");
+        bg.className = "bg";
+        bg.src = "stickers/" + (i + 1) + "_bg_gen.png";
+        wrap.appendChild(bg);
+
+        const obj = document.createElement("img");
+        obj.className = "obj";
+        obj.src = "stickers/" + (i + 1) + "_obj_gen_seg.png";
+        wrap.appendChild(obj);
+
+        p2.appendChild(wrap);
+        return wrap;
+      });
+
+      // Animate: one by one, right → center → left
+      let i = 0;
+      function animateNext() {
+        if (i >= sets.length) return;
+        const set = sets[i];
+        // Force reflow
+        set.offsetWidth;
+        // Move to center
+        startWalking();
+        requestAnimationFrame(() => {
+          set.classList.add("at-center");
+          // Scale up after arriving
+          setTimeout(() => {
+            set.classList.add("scaled");
+            stopWalking();
+          }, 500);
+          // Hold at center, then move left (skip exit for last set)
+          if (i < sets.length - 1) {
+            page2Animation = setTimeout(() => {
+              startWalking();
+              set.classList.remove("at-center");
+              set.classList.add("at-left");
+              // After exit, start next
+              page2Animation = setTimeout(() => {
+                i++;
+                animateNext();
+              }, 500);
+            }, 1700);
+          }
+        });
+      }
+      animateNext();
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Digit1") {
+        showPage(1);
+        return;
+      }
+      if (e.code === "Digit2") {
+        showPage(2);
+        return;
+      }
+      if (currentPage !== 1) return;
+      if (e.code === "Space") {
+        e.preventDefault();
+        controls.classList.toggle("hidden");
+      }
+      if (e.code === "ArrowLeft") video.currentTime -= 5;
+      if (e.code === "ArrowRight") video.currentTime += 5;
+    });
+  </script>
+</body>
+</html>

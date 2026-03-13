@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A3A3A"/>
+      <stop offset="100%" stop-color="#1A1A1A"/>
+    </linearGradient>
+    <linearGradient id="lens" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#555"/>
+      <stop offset="100%" stop-color="#222"/>
+    </linearGradient>
+    <radialGradient id="glass" cx="40%" cy="35%" r="50%">
+      <stop offset="0%" stop-color="#6BA3D6"/>
+      <stop offset="40%" stop-color="#2C3E50"/>
+      <stop offset="100%" stop-color="#1A1A2E"/>
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#00000044"/>
+    </filter>
+  </defs>
+  <!-- Camera body -->
+  <g filter="url(#shadow)" transform="translate(256,240)">
+    <!-- Main body -->
+    <rect x="-130" y="-60" width="260" height="140" rx="18" fill="url(#body)" stroke="#555" stroke-width="2"/>
+    <!-- Top hump (viewfinder) -->
+    <path d="M-50 -60 L-40 -95 L50 -95 L60 -60" fill="url(#body)" stroke="#555" stroke-width="2"/>
+    <!-- Viewfinder window -->
+    <rect x="-10" y="-88" width="30" height="18" rx="3" fill="#222" stroke="#444" stroke-width="1"/>
+    <!-- Mode dial -->
+    <circle cx="-70" cy="-70" r="15" fill="#444" stroke="#555" stroke-width="1.5"/>
+    <circle cx="-70" cy="-70" r="10" fill="#333"/>
+    <!-- Shutter button -->
+    <ellipse cx="80" cy="-68" rx="14" ry="8" fill="#C0392B" stroke="#922B21" stroke-width="1.5"/>
+    <!-- Lens mount -->
+    <circle cx="0" cy="15" r="70" fill="#2A2A2A" stroke="#444" stroke-width="2"/>
+    <!-- Lens outer ring -->
+    <circle cx="0" cy="15" r="62" fill="url(#lens)" stroke="#333" stroke-width="1.5"/>
+    <!-- Lens inner ring -->
+    <circle cx="0" cy="15" r="50" fill="#333" stroke="#444" stroke-width="1"/>
+    <!-- Glass element -->
+    <circle cx="0" cy="15" r="40" fill="url(#glass)"/>
+    <!-- Lens reflection -->
+    <ellipse cx="-12" cy="5" rx="15" ry="20" fill="#ffffff15" transform="rotate(-20)"/>
+    <!-- Grip texture -->
+    <rect x="-130" y="-40" width="30" height="100" rx="8" fill="#2A2A2A"/>
+    <line x1="-125" y1="-25" x2="-125" y2="45" stroke="#33333388" stroke-width="2"/>
+    <line x1="-120" y1="-25" x2="-120" y2="45" stroke="#33333388" stroke-width="2"/>
+    <line x1="-115" y1="-25" x2="-115" y2="45" stroke="#33333388" stroke-width="2"/>
+    <line x1="-110" y1="-25" x2="-110" y2="45" stroke="#33333388" stroke-width="2"/>
+    <!-- Flash -->
+    <rect x="-15" y="-95" width="8" height="5" rx="1" fill="#FFD700" opacity="0.6"/>
+    <!-- Brand text -->
+    <!-- Strap rings -->
+    <circle cx="-135" cy="-30" r="6" fill="none" stroke="#777" stroke-width="2"/>
+    <circle cx="135" cy="-30" r="6" fill="none" stroke="#777" stroke-width="2"/>
+  </g>
+</svg>

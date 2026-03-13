@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bottle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8E8E0"/>
+      <stop offset="100%" stop-color="#B8B8A8"/>
+    </linearGradient>
+    <linearGradient id="cup" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5F0E0"/>
+      <stop offset="100%" stop-color="#D8D0C0"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#00000066"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)" transform="translate(256, 230)">
+    <!-- Sake bottle (tokkuri) -->
+    <g transform="translate(-55, -20)">
+      <path d="M-30 60 Q-35 30 -32 0 Q-30 -20 -20 -40 Q-15 -55 -12 -70 Q-8 -80 0 -85 Q8 -80 12 -70 Q15 -55 20 -40 Q30 -20 32 0 Q35 30 30 60 Z" fill="url(#bottle)" stroke="#999" stroke-width="1.5"/>
+      <path d="M-12 -70 Q-10 -90 -8 -100 Q0 -108 8 -100 Q10 -90 12 -70" fill="url(#bottle)" stroke="#999" stroke-width="1.5"/>
+      <ellipse cx="0" cy="-100" rx="9" ry="4" fill="#DDD" stroke="#999" stroke-width="1"/>
+      <!-- Label -->
+      <rect x="-22" y="-25" width="44" height="60" rx="3" fill="white" stroke="#CCC" stroke-width="0.5"/>
+      <rect x="-19" y="-22" width="38" height="54" rx="2" fill="#FFFAF0"/>
+      <text x="0" y="5" text-anchor="middle" font-family="serif" font-size="26" font-weight="bold" fill="#8B0000">酒</text>
+      <text x="0" y="22" text-anchor="middle" font-family="serif" font-size="9" fill="#888">純米大吟醸</text>
+      <!-- Red seal -->
+      <circle cx="0" cy="-12" r="6" fill="#C0392B" opacity="0.7"/>
+      <!-- Highlight -->
+      <path d="M-26 -40 Q-29 10 -26 55" fill="none" stroke="white" stroke-width="2.5" opacity="0.25"/>
+      <ellipse cx="0" cy="60" rx="30" ry="8" fill="#A0A090" opacity="0.4"/>
+    </g>
+
+    <!-- Sake cup 1 -->
+    <g transform="translate(55, 45)">
+      <path d="M-22 22 Q-26 0 -22 -12 Q-12 -22 0 -24 Q12 -22 22 -12 Q26 0 22 22 Z" fill="url(#cup)" stroke="#AAA" stroke-width="1.5"/>
+      <ellipse cx="0" cy="-14" rx="20" ry="9" fill="#F5F0E0" stroke="#BBB" stroke-width="1"/>
+      <ellipse cx="0" cy="-12" rx="17" ry="7" fill="#FFFFF0" opacity="0.9"/>
+      <!-- Blue circle pattern -->
+      <circle cx="0" cy="4" r="10" fill="none" stroke="#4169E1" stroke-width="1.2" opacity="0.6"/>
+      <circle cx="0" cy="4" r="5" fill="#4169E1" opacity="0.15"/>
+    </g>
+
+    <!-- Sake cup 2 -->
+    <g transform="translate(110, 35)">
+      <path d="M-20 20 Q-24 0 -20 -10 Q-10 -20 0 -22 Q10 -20 20 -10 Q24 0 20 20 Z" fill="url(#cup)" stroke="#AAA" stroke-width="1.5"/>
+      <ellipse cx="0" cy="-12" rx="18" ry="8" fill="#F5F0E0" stroke="#BBB" stroke-width="1"/>
+      <ellipse cx="0" cy="-10" rx="15" ry="6" fill="#FFFFF0" opacity="0.9"/>
+      <!-- Flower pattern -->
+      <g transform="translate(0, 4)" opacity="0.5">
+        <circle cx="0" cy="-5" r="3.5" fill="#DB7093"/>
+        <circle cx="5" cy="0" r="3.5" fill="#DB7093"/>
+        <circle cx="-5" cy="0" r="3.5" fill="#DB7093"/>
+        <circle cx="0" cy="5" r="3.5" fill="#DB7093"/>
+        <circle cx="0" cy="0" r="2.5" fill="#FFD700"/>
+      </g>
+    </g>
+
+    <!-- Sashimi plate -->
+    <g transform="translate(25, 95)">
+      <ellipse cx="0" cy="0" rx="85" ry="28" fill="#FFF" stroke="#DDD" stroke-width="1.5"/>
+      <ellipse cx="0" cy="-3" rx="75" ry="22" fill="#FAFAFA"/>
+      <!-- Salmon sashimi -->
+      <g transform="translate(-35, -10)">
+        <path d="M0 0 L22 -6 L24 6 L2 10 Z" fill="#FA8072" stroke="#E06060" stroke-width="0.5"/>
+        <path d="M6 -3 L28 -9 L30 3 L8 7 Z" fill="#FF6B6B" stroke="#E06060" stroke-width="0.5"/>
+        <path d="M12 -7 L34 -13 L36 -1 L14 3 Z" fill="#FA8072" stroke="#E06060" stroke-width="0.5"/>
+        <!-- Fat lines -->
+        <line x1="3" y1="3" x2="20" y2="-2" stroke="#FFB6C1" stroke-width="0.8" opacity="0.6"/>
+        <line x1="9" y1="0" x2="26" y2="-5" stroke="#FFB6C1" stroke-width="0.8" opacity="0.6"/>
+      </g>
+      <!-- Tuna sashimi -->
+      <g transform="translate(18, -14)">
+        <path d="M0 0 L20 -4 L22 6 L2 8 Z" fill="#8B0000" stroke="#6B0000" stroke-width="0.5"/>
+        <path d="M5 -3 L25 -7 L27 3 L7 6 Z" fill="#A00020" stroke="#6B0000" stroke-width="0.5"/>
+        <path d="M10 -6 L30 -10 L32 0 L12 3 Z" fill="#8B0000" stroke="#6B0000" stroke-width="0.5"/>
+      </g>
+      <!-- Shiso leaf -->
+      <path d="M-12 6 Q-5 -8 12 -3 Q5 10 -12 6 Z" fill="#2E8B57" opacity="0.8"/>
+      <line x1="-8" y1="4" x2="8" y2="-1" stroke="#1E6B37" stroke-width="0.5"/>
+      <!-- Wasabi -->
+      <circle cx="45" cy="-2" r="7" fill="#7CFC00"/>
+      <circle cx="45" cy="-4" r="5" fill="#90EE90" opacity="0.5"/>
+      <!-- Daikon shreds -->
+      <g transform="translate(-55, -2)" opacity="0.8">
+        <line x1="-5" y1="-6" x2="5" y2="6" stroke="#FFFFF0" stroke-width="2.5"/>
+        <line x1="0" y1="-7" x2="8" y2="5" stroke="#FFFFF0" stroke-width="2"/>
+        <line x1="5" y1="-5" x2="12" y2="4" stroke="#FFFFF0" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>
