@@ -196,8 +196,8 @@
       display: none;
     }
 
-    /* Page 2 - stickers only */
-    .page-2 {
+    /* Page 4 - stickers */
+    .page-4 {
       display: none;
       position: fixed;
       top: 0;
@@ -210,7 +210,7 @@
       transform: scale(2);
       transform-origin: center center;
     }
-    .page-2 .character-wrap {
+    .page-4 .character-wrap {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -219,7 +219,7 @@
       height: 86px;
       z-index: 10;
     }
-    .page-2 .sticker-set {
+    .page-4 .sticker-set {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -231,15 +231,15 @@
       flex-direction: column;
       align-items: center;
     }
-    .page-2 .sticker-set.at-center {
+    .page-4 .sticker-set.at-center {
       transform: translateX(-50%) translateY(calc(-50% - 50px));
       opacity: 1;
     }
-    .page-2 .sticker-set.at-left {
+    .page-4 .sticker-set.at-left {
       transform: translateX(calc(-50% - 250px)) translateY(calc(-50% - 50px));
       opacity: 0;
     }
-    .page-2 .sticker-set .bg {
+    .page-4 .sticker-set .bg {
       height: 108px;
       width: 192px;
       object-fit: cover;
@@ -254,7 +254,7 @@
       65%  { transform: translateX(-50%) rotate(0deg); }
       100% { transform: translateX(-50%) rotate(0deg); }
     }
-    .page-2 .sprite-idle {
+    .page-4 .sprite-idle {
       width: 86px;
       height: 86px;
       background: url("stickers/sprites_idle.png") 0 0 no-repeat;
@@ -263,7 +263,7 @@
       left: 3px;
     }
 
-    .page-2 .sprite-walk {
+    .page-4 .sprite-walk {
       width: 86px;
       height: 86px;
       background: url("stickers/sprites_walk.png") 0 0 no-repeat;
@@ -289,8 +289,8 @@
       100%    { background-position: 0 0; }
     }
 
-    .page-2 .character-wrap .face {
-      animation: papercut-tilt 2s ease-in-out infinite;
+    .page-4 .character-wrap .face {
+      animation: papercut-tilt 1.4s ease-in-out infinite;
       transform-origin: bottom center;
     }
 
@@ -301,7 +301,7 @@
       75%  { translate: 0 -3px; rotate: 3deg; }
       100% { translate: 0 0; rotate: 0deg; }
     }
-    .page-2 .sticker-set .obj {
+    .page-4 .sticker-set .obj {
       position: absolute;
       height: 96px;
       width: 96px;
@@ -312,10 +312,10 @@
       margin-top: 16px;
       transform: scale(1.5);
     }
-    .page-2 .sticker-set.scaled .obj {
+    .page-4 .sticker-set.scaled .obj {
       animation: float-bob 2s ease-in-out infinite;
     }
-    .page-2 .sticker-set .section-label {
+    .page-4 .sticker-set .section-label {
       color: #ccc;
       font-size: 20px;
       font-weight: bold;
@@ -326,15 +326,98 @@
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-    .page-2 .sticker-set.scaled .section-label {
+    .page-4 .sticker-set.scaled .section-label {
       opacity: 1;
+    }
+
+    /* Page 1 - short summary */
+    .page-text {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
+      background: #000;
+      z-index: 100;
+      overflow-y: auto;
+      padding: 90px 40px 60px 40px;
+      max-width: 65vw;
+    }
+    .page-text .summary-card {
+      margin-bottom: 16px;
+      padding: 16px 28px;
+      background: #111;
+      border-radius: 12px;
+      border-left: 4px solid #555;
+    }
+    .page-text .summary-card .card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .page-text .summary-card .card-number {
+      font-size: 16px;
+      color: #888;
+      font-weight: bold;
+    }
+    .page-text .summary-card .card-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .page-text .summary-card .card-time {
+      font-size: 15px;
+      color: #666;
+    }
+    .page-text .summary-card .card-body {
+      font-size: 18px;
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .page-text.page-text-sm .summary-card { margin-bottom: 10px; padding: 10px 20px; }
+    .page-text.page-text-sm .summary-card .card-header { margin-bottom: 4px; }
+    .page-text.page-text-sm .summary-card .card-number { font-size: 13px; }
+    .page-text.page-text-sm .summary-card .card-title { font-size: 16px; }
+    .page-text.page-text-sm .summary-card .card-body { font-size: 13px; line-height: 1.5; }
+
+    .page-title {
+      display: none;
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      font-size: 32px;
+      color: #fff;
+      z-index: 200;
+    }
+
+    /* Page 3 - screenshot */
+    .page-image {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
+      background: #000;
+      z-index: 100;
+      overflow: hidden;
+    }
+    .page-image img {
+      width: 100%;
+      height: calc(100% - 80px);
+      margin-top: 80px;
+      object-fit: contain;
     }
 
   </style>
 </head>
 <body>
-  <div class="page-2" id="page2"></div>
-  <div class="player" id="page1">
+  <h1 class="page-title" id="pageTitle"></h1>
+  <div class="page-text page-text-sm" id="page1"></div>
+  <div class="page-text" id="page2"></div>
+  <div class="page-text" id="page3"></div>
+  <div class="page-image" id="page4"><img src="screenshots.png" /></div>
+  <div class="page-4" id="page5"></div>
+  <div class="player" id="page0">
     <video id="video" src="pani_okinawa.mp4" autoplay muted></video>
     <div class="controls">
       <div class="video-title" id="videoTitle"></div>
@@ -412,8 +495,12 @@
       .then(data => {
         sectionsData = data;
         document.getElementById("videoTitle").textContent = data.title;
+        document.getElementById("pageTitle").textContent = data.title;
         placeSections();
-        showPage(2);
+        buildSummaryPage(page1, "summary_fun");
+        buildSummaryPage(page2, "summary_short");
+        buildSummaryPage(page3, "summary_long");
+        showPage(-1);
       });
 
     video.addEventListener("loadedmetadata", placeSections);
@@ -570,30 +657,61 @@
     });
     window.addEventListener("mouseup", () => { dragging = false; });
 
+    const page0 = document.getElementById("page0");
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
-    let currentPage = 1;
+    const page3 = document.getElementById("page3");
+    const page4 = document.getElementById("page4");
+    const page5 = document.getElementById("page5");
+    const allPages = [page0, page1, page2, page3, page4, page5];
+    let currentPage = 0;
+
+    const pageTitle = document.getElementById("pageTitle");
 
     function showPage(num) {
       currentPage = num;
-      if (num === 1) {
-        page1.style.display = "";
-        page2.style.display = "none";
-        if (page2Animation) { clearTimeout(page2Animation); page2Animation = null; }
-      } else {
-        page1.style.display = "none";
-        page2.style.display = "block";
-        buildPage2();
-      }
+      if (page5Animation) { clearTimeout(page5Animation); page5Animation = null; }
+      allPages.forEach((p, i) => {
+        if (i === 0) p.style.display = (num === 0) ? "" : "none";
+        else p.style.display = (num === i) ? "block" : "none";
+      });
+      pageTitle.style.display = (num >= 1 && num <= 5) ? "block" : "none";
+      if (num === 5) buildPage5();
     }
 
-    let page2Animation = null;
+    function buildSummaryPage(container, field) {
+      if (!sectionsData) return;
+      container.innerHTML = "";
+      sectionsData.sections_5.forEach((s, i) => {
+        const card = document.createElement("div");
+        card.className = "summary-card";
+        card.style.borderLeftColor = sectionColors[i] || "#555";
+        const header = document.createElement("div");
+        header.className = "card-header";
+        const num = document.createElement("span");
+        num.className = "card-number";
+        num.textContent = (i + 1) + ".";
+        const title = document.createElement("span");
+        title.className = "card-title";
+        title.textContent = s.title;
+        header.appendChild(num);
+        header.appendChild(title);
+        card.appendChild(header);
+        const body = document.createElement("div");
+        body.className = "card-body";
+        body.innerHTML = (s[field] || "").replace(/\n/g, "<br>");
+        card.appendChild(body);
+        container.appendChild(card);
+      });
+    }
 
-    function buildPage2() {
-      const p2 = document.getElementById("page2");
+    let page5Animation = null;
+
+    function buildPage5() {
+      const p2 = document.getElementById("page5");
       // Clear previous content except structure
       p2.querySelectorAll(".character-wrap, .sticker-set").forEach(el => el.remove());
-      if (page2Animation) { clearTimeout(page2Animation); page2Animation = null; }
+      if (page5Animation) { clearTimeout(page5Animation); page5Animation = null; }
       if (!sectionsData) return;
       const secs = sectionsData.sections_5;
 
@@ -648,33 +766,27 @@
         return wrap;
       });
 
-      // Animate: one by one, right → center → left
+      // Animate: train style — next enters as current exits
       let i = 0;
       function animateNext() {
         if (i >= sets.length) return;
         const set = sets[i];
-        // Force reflow
         set.offsetWidth;
-        // Move to center
         startWalking();
         requestAnimationFrame(() => {
           set.classList.add("at-center");
-          // Scale up after arriving
           setTimeout(() => {
             set.classList.add("scaled");
             stopWalking();
           }, 500);
-          // Hold at center, then move left (skip exit for last set)
           if (i < sets.length - 1) {
-            page2Animation = setTimeout(() => {
+            page5Animation = setTimeout(() => {
               startWalking();
               set.classList.remove("at-center");
               set.classList.add("at-left");
-              // After exit, start next
-              page2Animation = setTimeout(() => {
-                i++;
-                animateNext();
-              }, 500);
+              // Start next immediately as current exits
+              i++;
+              animateNext();
             }, 1700);
           }
         });
@@ -683,15 +795,13 @@
     }
 
     document.addEventListener("keydown", (e) => {
-      if (e.code === "Digit1") {
-        showPage(1);
-        return;
-      }
-      if (e.code === "Digit2") {
-        showPage(2);
-        return;
-      }
-      if (currentPage !== 1) return;
+      if (e.code === "Digit0") { showPage(0); return; }
+      if (e.code === "Digit1") { showPage(1); return; }
+      if (e.code === "Digit2") { showPage(2); return; }
+      if (e.code === "Digit3") { showPage(3); return; }
+      if (e.code === "Digit4") { showPage(4); return; }
+      if (e.code === "Digit5") { showPage(5); return; }
+      if (currentPage !== 0) return;
       if (e.code === "Space") {
         e.preventDefault();
         controls.classList.toggle("hidden");
