@@ -749,7 +749,7 @@
 
         const label = document.createElement("span");
         label.className = "section-label";
-        label.textContent = s.title;
+        label.textContent = (i + 1) + ". " + s.title;
         wrap.appendChild(label);
 
         const bg = document.createElement("img");
@@ -766,10 +766,20 @@
         return wrap;
       });
 
-      // Animate: train style — next enters as current exits
+      // Animate: train style, looping
       let i = 0;
+      function resetSets() {
+        sets.forEach(s => {
+          s.style.transition = "none";
+          s.classList.remove("at-center", "at-left", "scaled");
+        });
+        // Force reflow then restore transitions
+        sets[0].offsetWidth;
+        sets.forEach(s => {
+          s.style.transition = "";
+        });
+      }
       function animateNext() {
-        if (i >= sets.length) return;
         const set = sets[i];
         set.offsetWidth;
         startWalking();
@@ -779,16 +789,22 @@
             set.classList.add("scaled");
             stopWalking();
           }, 500);
-          if (i < sets.length - 1) {
-            page5Animation = setTimeout(() => {
-              startWalking();
-              set.classList.remove("at-center");
-              set.classList.add("at-left");
-              // Start next immediately as current exits
-              i++;
+          page5Animation = setTimeout(() => {
+            startWalking();
+            set.classList.remove("at-center");
+            set.classList.add("at-left");
+            i++;
+            if (i >= sets.length) {
+              // Keep walking alone for 1s, then loop
+              page5Animation = setTimeout(() => {
+                i = 0;
+                resetSets();
+                animateNext();
+              }, 1000);
+            } else {
               animateNext();
-            }, 1700);
-          }
+            }
+          }, 1700);
         });
       }
       animateNext();
